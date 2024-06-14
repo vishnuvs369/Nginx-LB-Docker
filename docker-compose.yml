@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend1:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx1
+    container_name: backend1
+    ports:
+      - "8082:80"
+    networks:
+      - ha-network
+
+  backend2:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx2
+    container_name: backend2
+    ports:
+      - "8083:80"
+    networks:
+      - ha-network
+
+  loadbalancer:
+    image: nginx:latest
+    container_name: loadbalancer
+    ports:
+      - "8080:80"
+    networks:
+      - ha-network
+    volumes:
+      - ./loadbalancer.conf:/etc/nginx/nginx.conf
+
+networks:
+  ha-network:
+    driver: bridge
+

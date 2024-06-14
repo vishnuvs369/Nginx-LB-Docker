@@ -1,0 +1,4 @@
+# Dockerfile.nginx2
+FROM nginx:latest
+COPY ./nginx2_content /usr/share/nginx/html
+
